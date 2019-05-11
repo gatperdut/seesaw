@@ -44,14 +44,14 @@ class Servo
   private
 
   def draw_origin
-    @window.draw_rect(@origin.x - 8, @origin.y - 8, 16, 16, 0xFFFFFF00)
+    @window.draw_rect(@origin.x - 5, @origin.y - 5, 10, 10, 0xFFFFFF00)
   end
 
   def draw_stick
-    @window.draw_line(@origin.x, @origin.y, 0xFFFF0000, @dest.x, @dest.y, 0xFFFF0000)
+    @window.draw_line(@origin.x, @origin.y, 0xFFFFFFFF, @dest.x, @dest.y, 0xFFFFFFFF)
   end
 
   def draw_dest
-    @window.draw_rect(@dest.x - 5, @dest.y - 5, 10, 10, 0xFFFFFFFF)
+    @window.draw_rect(@dest.x - 3, @dest.y - 3, 6, 6, 0xFF00FF00)
   end
 end

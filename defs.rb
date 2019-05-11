@@ -1,13 +1,13 @@
 module Defs
 
   WINDOW = {
-    HEIGHT: 800,
-    WIDTH:  800
+    HEIGHT: 850,
+    WIDTH:  1000
   }
 
   WINDOW[:CENTER] = WINDOW[:WIDTH] / 2
 
-  GROUND = 30
+  GROUND = 50
 
   SERVO = {
     X:      Defs::WINDOW[:CENTER],

@@ -88,7 +88,7 @@ class Seesaw
   end
 
   def draw_anchor
-    @window.draw_rect(@anchor_point.x - 5, @anchor_point.y - 5, 10, 10, 0xFF00FF00)
+    @window.draw_rect(@anchor_point.x - 3, @anchor_point.y - 3, 6, 6, 0xFF00FF00)
   end
 
   def draw_stick
@@ -97,6 +97,13 @@ class Seesaw
 
   def draw_arms
     @window.draw_line(@extreme_left.x, @extreme_left.y, 0xFFFFFFFF, @extreme_right.x, @extreme_right.y, 0xFFFFFFFF)
+
+    draw_arm_extremes
+  end
+
+  def draw_arm_extremes
+    @window.draw_rect(@extreme_left.x  - 3, @extreme_left.y  - 3, 6, 6, 0xFFFF0000)
+    @window.draw_rect(@extreme_right.x - 3, @extreme_right.y - 3, 6, 6, 0xFF0000FF)
   end
 
 end

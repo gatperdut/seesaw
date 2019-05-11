@@ -42,6 +42,8 @@ class Window < Gosu::Window
     @servo.draw
     @seesaw.draw
     draw_stick_length
+    draw_servo_length
+    draw_arm_length
     draw_angle
   end
 
@@ -60,13 +62,21 @@ class Window < Gosu::Window
     @font.draw_text("(computed per frame: #{@seesaw.stick_length[:needed].round(2)})", 180, line(0), 0)
   end
 
+  def draw_servo_length
+    @font.draw_text("Servo length: #{Defs::SERVO[:LENGTH]}", 5, line(1), 0)
+  end
+
+  def draw_arm_length
+    @font.draw_text("Arm length: #{Defs::SEESAW[:ARM][:LENGTH]} (Anchor distance: #{Defs::SEESAW[:ARM][:ANCHOR_DISTANCE]})", 5, line(2), 0)
+  end  
+
   def draw_angle
-    @font.draw_text("α(rad) = #{@servo.angle[:current].round(2)}", 5, line(1), 0)
-    @font.draw_text("(Max: #{@servo.angle[:max].round(2)}, Min: #{@servo.angle[:min].round(2)})", 180, line(1), 0)
+    @font.draw_text("α(rad) = #{@servo.angle[:current].round(2)}", 5, line(3), 0)
+    @font.draw_text("(Max: #{@servo.angle[:max].round(2)}, Min: #{@servo.angle[:min].round(2)})", 180, line(3), 0)
 
 
-    @font.draw_text("α(deg) = #{Utils::to_deg(@servo.angle[:current]).round(2)}", 5, line(2), 0)
-    @font.draw_text("(Max: #{Utils::to_deg(@servo.angle[:max]).round(2)}, Min: #{Utils::to_deg(@servo.angle[:min]).round(2)})", 180, line(2), 0)
+    @font.draw_text("α(deg) = #{Utils::to_deg(@servo.angle[:current]).round(2)}", 5, line(4), 0)
+    @font.draw_text("(Max: #{Utils::to_deg(@servo.angle[:max]).round(2)}, Min: #{Utils::to_deg(@servo.angle[:min]).round(2)})", 180, line(4), 0)
   end
 end
 
