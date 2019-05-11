@@ -1,4 +1,6 @@
 require './defs'
+require './utils'
+require './point'
 
 class Servo
   attr_reader :origin
@@ -11,27 +13,45 @@ class Servo
   def initialize(window)
     @window = window
 
-    @origin = Utils::Point.new(Defs::WINDOW[:CENTER], 650)
+    @origin = Point.new(Defs::SERVO[:X], Defs::SERVO[:Y])
 
-    @dest = Utils::Point.new(0, 0)
+    @dest = Point.new(0, 0)
 
-    @angle = 0
+    @length = Defs::SERVO[:LENGTH]
 
-    @length = 100
+    @angle = {
+      current: 0.0,
+      max:     0.0,
+      min:     0.0
+    }
   end
  
   def update
-    @angle = Utils::timewave
+    @angle[:current] = Utils::timewave
+    @angle[:max]     = @angle[:current] if @angle[:current] > @angle[:max]
+    @angle[:min]     = @angle[:current] if @angle[:current] < @angle[:min]
 
-    @dest.x = @origin.x + Math.cos(@angle) * @length
-    @dest.y = @origin.y + Math.sin(@angle) * @length
+    @dest.x = @origin.x + Math.cos(@angle[:current]) * @length
+    @dest.y = @origin.y + Math.sin(@angle[:current]) * @length
   end
  
   def draw
+    draw_origin
+    draw_stick
+    draw_dest
+  end
+
+  private
+
+  def draw_origin
     @window.draw_rect(@origin.x - 8, @origin.y - 8, 16, 16, 0xFFFFFF00)
+  end
 
+  def draw_stick
     @window.draw_line(@origin.x, @origin.y, 0xFFFF0000, @dest.x, @dest.y, 0xFFFF0000)
+  end
 
+  def draw_dest
     @window.draw_rect(@dest.x - 5, @dest.y - 5, 10, 10, 0xFFFFFFFF)
   end
 end

@@ -1,7 +1,5 @@
 module Utils
 
-  Point = Struct.new(:x, :y)
-
   def self.timewave
     Math.asin(Math.sin(Time.now.to_f))
   end
@@ -17,6 +15,10 @@ module Utils
     cos_angle = (b ** 2 + c ** 2 - a ** 2) / (2 * b * c)
 
     Math.acos(cos_angle)
+  end
+
+  def self.to_deg(rad)
+    rad * 57.2958
   end
 
 end
