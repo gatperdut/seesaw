@@ -1,7 +1,7 @@
 module Utils
 
   def self.timewave
-    Math.asin(Math.sin(Time.now.to_f))
+    Time.now.to_f
   end
 
   def self.distance(p1, p2)

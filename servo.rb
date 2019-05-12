@@ -20,19 +20,20 @@ class Servo
     @length = Defs::SERVO[:LENGTH]
 
     @angle = {
-      current: 0.0,
+      sin:     0.0,
+      cos:     0.0,
       max:     0.0,
       min:     0.0
     }
   end
  
   def update
-    @angle[:current] = Utils::timewave
-    @angle[:max]     = @angle[:current] if @angle[:current] > @angle[:max]
-    @angle[:min]     = @angle[:current] if @angle[:current] < @angle[:min]
+    tw = Utils::timewave
+    @angle[:sin] = Math.sin(tw)
+    @angle[:cos] = Math.cos(tw)
 
-    @dest.x = @origin.x + Math.cos(@angle[:current]) * @length
-    @dest.y = @origin.y + Math.sin(@angle[:current]) * @length
+    @dest.x = @origin.x + @angle[:cos] * @length
+    @dest.y = @origin.y + @angle[:sin] * @length
   end
  
   def draw

@@ -46,23 +46,25 @@ class Seesaw
     m = @anchor_distance
 
     alpha = Utils::find_angle(a, d, h)
-    beta = Utils::find_angle(s, m, d)
+    beta  = Utils::find_angle(s, m, d)
 
-    epsilon = alpha + beta - Math::PI / 2.0
+    condition = Math.acos(@servo.angle[:cos]) > Defs::HALFPI
+
+    epsilon = condition ? beta - alpha - Defs::HALFPI : alpha + beta - Defs::HALFPI
 
     @anchor_point = Point.new(
-      @origin.x    + m * Math.cos(epsilon),
-      @origin.yinv + m * Math.sin(epsilon)
+      @origin.x + m * Math.cos(epsilon),
+      @origin.y - m * Math.sin(epsilon)
     )
 
     @extreme_right = Point.new(
-      @origin.x    + @arm_length * Math.cos(epsilon),
-      @origin.yinv + @arm_length * Math.sin(epsilon)
+      @origin.x + @arm_length * Math.cos(epsilon),
+      @origin.y - @arm_length * Math.sin(epsilon)
     )
 
     @extreme_left = Point.new(
-      @origin.x    - @arm_length * Math.cos(epsilon),
-      @origin.yinv - @arm_length * Math.sin(epsilon)
+      @origin.x - @arm_length * Math.cos(epsilon),
+      @origin.y + @arm_length * Math.sin(epsilon)
     )
 
     @min_max.update(@extreme_left, @extreme_right)
