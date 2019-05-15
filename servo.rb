@@ -28,9 +28,9 @@ class Servo
   end
  
   def update
-    tw = Utils::timewave
-    @angle[:sin] = Math.sin(tw)
-    @angle[:cos] = Math.cos(tw)
+    t = @window.timer.t
+    @angle[:sin] = Math.sin(t)
+    @angle[:cos] = Math.cos(t)
 
     @dest.x = @origin.x + @angle[:cos] * @length
     @dest.y = @origin.y + @angle[:sin] * @length

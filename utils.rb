@@ -1,9 +1,5 @@
 module Utils
 
-  def self.timewave
-    Time.now.to_f
-  end
-
   def self.distance(p1, p2)
     dx = p1.x - p2.x
     dy = p1.y - p2.y

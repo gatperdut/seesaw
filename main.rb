@@ -2,12 +2,14 @@ require 'gosu'
 require 'byebug'
 
 require './utils'
+require './timer'
 require './servo'
 require './seesaw'
 require './defs'
 
 class Window < Gosu::Window
   attr_reader :font
+  attr_reader :timer
 
   def initialize(width=Defs::WINDOW[:WIDTH], height=Defs::WINDOW[:HEIGHT])
     super
@@ -18,15 +20,21 @@ class Window < Gosu::Window
     @seesaw = Seesaw.new(self, @servo)
 
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
+
+    @timer = Timer.new
+
+    @drawn_once = false
   end
 
   def update
+    @timer.update
     @servo.update
     @seesaw.update
   end
 
   def button_down(id)
-    close if id == Gosu::KbEscape
+    close         if id == Gosu::KbEscape
+    @timer.toggle if id == Gosu::KbSpace
   end
 
   def needs_cursor?
@@ -34,10 +42,11 @@ class Window < Gosu::Window
   end
 
   def needs_redraw?
-    true
+    @timer.running || !@drawn_once
   end
 
   def draw
+    @drawn_once = true
     #sleep(0.3)
     draw_ground
     @servo.draw
@@ -72,12 +81,16 @@ class Window < Gosu::Window
   end  
 
   def draw_angle
-    @font.draw_text("sen(rad) = #{Math.asin(@servo.angle[:sin]).round(2)}", 5, line(3), 0)
-    @font.draw_text("cos(rad) = #{Math.acos(@servo.angle[:cos]).round(2)}", 5, line(4), 0)
+    @font.draw_text("asin(rad) = #{Math.asin(@servo.angle[:sin]).round(2)}", 5, line(3), 0)
+    @font.draw_text("acos(rad) = #{Math.acos(@servo.angle[:cos]).round(2)}", 5, line(4), 0)
 
 
-    @font.draw_text("sen(deg) = #{Utils::to_deg(Math.asin(@servo.angle[:sin])).round(2)}", 5, line(5), 0)
-    @font.draw_text("cos(deg) = #{Utils::to_deg(Math.acos(@servo.angle[:cos])).round(2)}", 5, line(6), 0)
+    @font.draw_text("asin(deg) = #{Utils::to_deg(Math.asin(@servo.angle[:sin])).round(2)}", 5, line(5), 0)
+    @font.draw_text("acos(deg) = #{Utils::to_deg(Math.acos(@servo.angle[:cos])).round(2)}", 5, line(6), 0)
+
+    tan = Utils::to_deg(Math.atan(@servo.angle[:sin] / @servo.angle[:cos]))
+    tan = tan + (Math.acos(@servo.angle[:cos]) > Defs::HALFPI ? 270.0 : 90.0)
+    @font.draw_text("atan(deg) = #{tan.round(2)}", 5, line(7), 0)
   end
 end
 

@@ -1,3 +1,5 @@
+require 'byebug'
+
 require './defs'
 require './point'
 require './min_max'
